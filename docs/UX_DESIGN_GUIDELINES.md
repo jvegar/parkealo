@@ -1,8 +1,8 @@
-# User Experience Design Guidelines - ParkShare Platform
+# User Experience Design Guidelines - Parkealo Platform
 
 ## Design Philosophy
 
-The ParkShare platform follows a **user-centered design approach** that prioritizes simplicity, trust, and efficiency. Our design philosophy is built on three core principles:
+The Parkealo platform follows a **user-centered design approach** that prioritizes simplicity, trust, and efficiency. Our design philosophy is built on three core principles:
 
 ### 1. Trust-First Design
 - Build confidence through transparency and verification
@@ -452,4 +452,4 @@ Target Level AA compliance with some Level AAA features:
 - **Migration guides**: Instructions for updating between versions
 - **Deprecation warnings**: Advance notice of breaking changes
 
-This comprehensive UX design guideline ensures a consistent, accessible, and user-friendly experience across all ParkShare platform interfaces while maintaining flexibility for future enhancements and adaptations."}
+This comprehensive UX design guideline ensures a consistent, accessible, and user-friendly experience across all Parkealo platform interfaces while maintaining flexibility for future enhancements and adaptations."}
