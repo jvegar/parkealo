@@ -1,8 +1,8 @@
-# Domain-Driven Design Analysis - ParkShare Platform
+# Domain-Driven Design Analysis - Parkealo Platform
 
 ## Core Business Domain
 
-The ParkShare platform operates in the **shared economy parking marketplace** domain, connecting drivers seeking parking with homeowners having unused parking spaces.
+The Parkealo platform operates in the **shared economy parking marketplace** domain, connecting drivers seeking parking with homeowners having unused parking spaces.
 
 ## Strategic Domain Analysis
 

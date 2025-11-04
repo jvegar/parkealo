@@ -1,8 +1,8 @@
-# Technical Architecture - ParkShare Platform
+# Technical Architecture - Parkealo Platform
 
 ## Architecture Overview
 
-The ParkShare platform follows a **cloud-native microservices architecture** with Domain-Driven Design principles, designed for scalability, reliability, and maintainability.
+The Parkealo platform follows a **cloud-native microservices architecture** with Domain-Driven Design principles, designed for scalability, reliability, and maintainability.
 
 ### Architecture Principles
 - **Domain-Driven Design**: Bounded contexts align with business domains

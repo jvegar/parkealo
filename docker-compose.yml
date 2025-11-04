@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
@@ -19,7 +17,11 @@ services:
     networks:
       - parkealo-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-parkealo_user} -d ${POSTGRES_DB:-parkealo_dev}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-parkealo_user} -d ${POSTGRES_DB:-parkealo_dev}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -66,98 +68,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-
-  # API Gateway Service
-  api-gateway:
-    build:
-      context: ./services/api-gateway
-      dockerfile: Dockerfile
-    container_name: parkealo-api-gateway
-    restart: unless-stopped
-    environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${API_GATEWAY_PORT:-3000}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-parkealo_user}:${POSTGRES_PASSWORD:-parkealo_password}@postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-parkealo_dev}
-      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_password}@redis:${REDIS_PORT:-6379}
-      RABBITMQ_URL: amqp://${RABBITMQ_USER:-parkealo_user}:${RABBITMQ_PASSWORD:-parkealo_password}@rabbitmq:${RABBITMQ_PORT:-5672}/${RABBITMQ_VHOST:-parkealo_vhost}
-      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key}
-      JWT_EXPIRATION: ${JWT_EXPIRATION:-15m}
-      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-7d}
-    ports:
-      - "${API_GATEWAY_PORT:-3000}:3000"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    volumes:
-      - ./services/api-gateway:/app
-      - /app/node_modules
-    networks:
-      - parkealo-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  # User Service
-  user-service:
-    build:
-      context: ./services/user-service
-      dockerfile: Dockerfile
-    container_name: parkealo-user-service
-    restart: unless-stopped
-    environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${USER_SERVICE_PORT:-3001}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-parkealo_user}:${POSTGRES_PASSWORD:-parkealo_password}@postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-parkealo_dev}
-      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_password}@redis:${REDIS_PORT:-6379}
-      RABBITMQ_URL: amqp://${RABBITMQ_USER:-parkealo_user}:${RABBITMQ_PASSWORD:-parkealo_password}@rabbitmq:${RABBITMQ_PORT:-5672}/${RABBITMQ_VHOST:-parkealo_vhost}
-    ports:
-      - "${USER_SERVICE_PORT:-3001}:3001"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    volumes:
-      - ./services/user-service:/app
-      - /app/node_modules
-    networks:
-      - parkealo-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  # Frontend React Application
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: parkealo-frontend
-    restart: unless-stopped
-    environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      REACT_APP_API_URL: http://localhost:${API_GATEWAY_PORT:-3000}
-      REACT_APP_ENVIRONMENT: ${NODE_ENV:-development}
-    ports:
-      - "${FRONTEND_PORT:-3002}:3000"
-    depends_on:
-      - api-gateway
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    networks:
-      - parkealo-network
 
   # Nginx Reverse Proxy (Optional - for production-like setup)
   nginx:

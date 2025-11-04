@@ -1,4 +1,4 @@
-# Business Model Canvas - ParkShare Platform
+# Business Model Canvas - Parkealo Platform
 
 ## Key Partners
 - **Payment Processors**: Stripe, PayPal for secure transactions
