@@ -19,10 +19,10 @@ This sprint focuses on setting up the foundational infrastructure for the Parkea
 **Tasks**:
 - [x] Create Docker Compose configuration for local development
 - [x] Set up PostgreSQL database container with initial configuration
-- [ ] Configure Redis container for caching and session management
-- [ ] Set up RabbitMQ container for message queuing
-- [ ] Create environment variable configuration files
-- [ ] Document development setup process
+- [x] Configure Redis container for caching and session management
+- [x] Set up RabbitMQ container for message queuing
+- [x] Create environment variable configuration files
+- [x] Document development setup process
 
 **Acceptance Criteria**:
 - All containers start successfully with `docker-compose up`
@@ -37,12 +37,12 @@ This sprint focuses on setting up the foundational infrastructure for the Parkea
 **Description**: Implement API Gateway with authentication and routing capabilities.
 
 **Tasks**:
-- [ ] Set up Express.js API Gateway project structure
-- [ ] Implement JWT authentication middleware
-- [ ] Create request routing to microservices
-- [ ] Add rate limiting and request validation
-- [ ] Implement CORS configuration
-- [ ] Set up API documentation with Swagger
+- [x] Set up Express.js API Gateway project structure
+- [x] Implement JWT authentication middleware
+- [x] Create request routing to microservices
+- [x] Add rate limiting and request validation
+- [x] Implement CORS configuration
+- [x] Set up API documentation with Swagger
 
 **Acceptance Criteria**:
 - API Gateway successfully routes requests to appropriate services

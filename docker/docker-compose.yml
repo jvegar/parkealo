@@ -87,6 +87,12 @@ services:
     profiles:
       - with-nginx
 
+  network-creator:
+    image: busybox:latest
+    command: sleep infinity
+    networks:
+      - parkealo-network
+
 volumes:
   postgres_data:
     driver: local
