@@ -1,6 +1,8 @@
 node_modules
 .claude/
 .env
+.envrc
+dist
 
 .nx/installation
 .nx/cache

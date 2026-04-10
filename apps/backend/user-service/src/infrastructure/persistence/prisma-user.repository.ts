@@ -5,18 +5,23 @@ import { UserRegisteredEvent } from '../../domain/events/user-registered.event';
 import { UserId } from '../../domain/value-objects/userid.value-object';
 import { UserMapper } from '../../presentation/mappers/user.mapper';
 import { Email } from '../../domain/value-objects/email.value-object';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class EventDispatcher<T> {
   dispatch(event: T): void {
     console.log('Event dispatched:', event);
   }
 }
 
-export class PrismaUserRepository implements UserRepository {
+@Injectable()
+export class PrismaUserRepository extends UserRepository {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly eventDispatcher: EventDispatcher<UserRegisteredEvent>,
-  ) {}
+  ) {
+    super();
+  }
 
   async save(user: User): Promise<void> {
     const data = UserMapper.toPersistance(user);

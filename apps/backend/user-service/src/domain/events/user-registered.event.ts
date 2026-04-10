@@ -1,7 +1,8 @@
-import { UserRole } from '../entities/user.entity';
+import { DomainEvent } from '../common/aggregate-root';
+import { UserRole } from '../enums/user-role.enum';
 
-export class UserRegisteredEvent {
-  public readonly occurredOn: Date;
+export class UserRegisteredEvent implements DomainEvent {
+  public readonly occurredAt: Date;
   public readonly eventId: string;
   constructor(
     public readonly userId: string,
@@ -12,8 +13,9 @@ export class UserRegisteredEvent {
     public readonly isVerified: boolean,
     public readonly role: UserRole,
     public readonly hashedPassword: string,
+    public readonly eventType: string,
   ) {
-    this.occurredOn = new Date();
+    this.occurredAt = new Date();
     this.eventId = crypto.randomUUID();
   }
 }

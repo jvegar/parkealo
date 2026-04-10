@@ -1,3 +1,5 @@
+import { InvalidEmailException } from '../exceptions/value-object.exception';
+
 export class Email {
   constructor(public readonly value: string) {}
 
@@ -5,7 +7,7 @@ export class Email {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!regex.test(email)) {
-      throw new Error('Invalid email');
+      throw new InvalidEmailException(email);
     }
 
     return new Email(email.toLowerCase());

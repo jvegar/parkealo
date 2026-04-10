@@ -1,5 +1,6 @@
 import { prisma } from './lib/prisma';
-import { UserRole } from './src/domain/entities/user.entity.ts';
+import { UserRole } from './src/domain/enums/user-role.enum';
+import { PasswordHasher } from './src/domain/services/password-hasher.service';
 
 async function main() {
   const user = await prisma.user.create({
@@ -10,6 +11,7 @@ async function main() {
       phone: '123456789',
       isVerified: false,
       role: UserRole.DRIVER,
+      hashedPassword: await new PasswordHasher().hash('inicio123'),
     },
   });
   console.log('Created user:', user);

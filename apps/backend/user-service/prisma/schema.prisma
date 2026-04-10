@@ -20,6 +20,7 @@ model User {
   phone      String
   isVerified Boolean @map("is_verified")
   role       String
+  hashedPassword String @map("hashed_password")
 
   @@map("user")
 }

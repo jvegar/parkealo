@@ -1,4 +1,4 @@
-import { UserRole } from '../../domain/entities/user.entity';
+import { UserRole } from '../../domain/enums/user-role.enum';
 
 export class RegisterUserCommand {
   constructor(

@@ -1,5 +1,8 @@
 import * as bcrypt from 'bcrypt';
+import { Injectable } from '@nestjs/common';
+import { PasswordHashingException } from '../exceptions/passwor-hasher.exception';
 
+@Injectable()
 export class PasswordHasher {
   saltRounds = 10;
 
@@ -9,7 +12,7 @@ export class PasswordHasher {
 
       return hashedPassword;
     } catch (err) {
-      console.log('Error hashing password:', err);
+      throw new PasswordHashingException();
     }
   }
 }

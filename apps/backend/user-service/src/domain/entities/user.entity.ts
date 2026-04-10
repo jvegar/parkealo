@@ -1,14 +1,10 @@
 import { AggregateRoot } from '../common/aggregate-root';
+import { UserRole } from '../enums/user-role.enum';
 import { UserRegisteredEvent } from '../events/user-registered.event';
 import { Email } from '../value-objects/email.value-object';
 import { UserId } from '../value-objects/userid.value-object';
 
-export enum UserRole {
-  DRIVER = 'DRIVER',
-  HOMEOWNER = 'HOMEOWNER',
-}
-
-export class User extends AggregateRoot<UserId> {
+export class User extends AggregateRoot<UserId, UserRegisteredEvent> {
   private constructor(
     id: UserId,
     private readonly _email: Email,
@@ -56,6 +52,7 @@ export class User extends AggregateRoot<UserId> {
         user.isVerified,
         user.role,
         user.hashedPassword,
+        '',
       ),
     );
     return user;
@@ -105,6 +102,7 @@ export class User extends AggregateRoot<UserId> {
     phone: string,
     isVerified: boolean,
     role: UserRole,
+    hashedPassword: string,
   ): User {
     return new User(
       userId,
@@ -114,6 +112,7 @@ export class User extends AggregateRoot<UserId> {
       phone,
       isVerified,
       role,
+      hashedPassword,
     );
   }
 }
