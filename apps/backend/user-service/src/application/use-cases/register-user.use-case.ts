@@ -1,9 +1,9 @@
 import { User } from '../../domain/entities/user.entity';
-import { UserAlreadyExistsException } from '../../domain/exceptions/user.exception';
+import { UserAlreadyExistsException } from '@parkealo/shared';
 import { UserRepository } from '../../domain/repositories/user.repository';
-import { PasswordHasher } from '../../domain/services/password-hasher.service';
-import { Email } from '../../domain/value-objects/email.value-object';
-import { UserId } from '../../domain/value-objects/userid.value-object';
+import { PasswordHasher } from '@parkealo/shared';
+import { Email } from '@parkealo/shared';
+import { UserId } from '@parkealo/shared';
 import { RegisterUserCommand } from '../commands/register-user.command';
 import { RegisterUserResponse } from '../responses/register-user.response';
 import { Injectable } from '@nestjs/common';
@@ -15,7 +15,9 @@ export class RegisterUserUseCase {
     private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  public async execute(command: RegisterUserCommand): Promise<RegisterUserResponse> {
+  public async execute(
+    command: RegisterUserCommand,
+  ): Promise<RegisterUserResponse> {
     const emailVO = Email.create(command.email);
     const existingUser = await this.userRepository.findByEmail(emailVO);
 

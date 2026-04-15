@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../common/aggregate-root';
+import { AggregateRoot } from '@parkealo/shared';
 import { UserRole } from '../enums/user-role.enum';
 import { UserRegisteredEvent } from '../events/user-registered.event';
-import { Email } from '../value-objects/email.value-object';
-import { UserId } from '../value-objects/userid.value-object';
+import { Email } from '@parkealo/shared';
+import { UserId } from '@parkealo/shared';
 
 export class User extends AggregateRoot<UserId, UserRegisteredEvent> {
   private constructor(

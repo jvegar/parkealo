@@ -1,4 +1,4 @@
-import { InvalidEmailException } from '../exceptions/value-object.exception';
+import { InvalidEmailException } from '../exceptions';
 
 export class Email {
   constructor(public readonly value: string) {}

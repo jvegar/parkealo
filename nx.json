@@ -31,7 +31,8 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/backend/user-service-e2e/**/*"
+        "apps/backend/user-service-e2e/**/*",
+        "apps/backend/authentication-service-e2e/**/*"
       ]
     }
   ]

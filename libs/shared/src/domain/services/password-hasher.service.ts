@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
-import { PasswordHashingException } from '../exceptions/passwor-hasher.exception';
+import { PasswordHashingException } from '../exceptions';
 
 @Injectable()
 export class PasswordHasher {

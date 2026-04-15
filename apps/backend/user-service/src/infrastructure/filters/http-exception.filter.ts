@@ -1,5 +1,5 @@
 import { ArgumentsHost, ExceptionFilter, Catch } from '@nestjs/common';
-import { DomainException } from '../../domain/exceptions/domain.exception';
+import { DomainException } from '@parkealo/shared';
 import type { Response } from 'express';
 
 @Catch(DomainException)

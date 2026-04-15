@@ -1,4 +1,4 @@
-import { DomainEvent } from '../common/aggregate-root';
+import { DomainEvent } from '@parkealo/shared';
 import { UserRole } from '../enums/user-role.enum';
 
 export class UserRegisteredEvent implements DomainEvent {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserController } from './presentation/controllers/user.controller';
 // import { UserService } from './domain/services/user.service';
 import { RegisterUserUseCase } from './application/use-cases/register-user.use-case';
-import { PasswordHasher } from './domain/services/password-hasher.service';
+import { PasswordHasher } from '@parkealo/shared';
 import { UserRepository } from './domain/repositories/user.repository';
 import {
   PrismaUserRepository,
