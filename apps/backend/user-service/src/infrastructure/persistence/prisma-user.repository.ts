@@ -1,10 +1,6 @@
 import { PrismaClient } from 'apps/backend/user-service/generated/prisma/client';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { User } from '../../domain/entities/user.entity';
-import { UserRegisteredEvent } from '../../domain/events/user-registered.event';
-import { UserId } from '@parkealo/shared';
+import { User, UserRepository, UserRegisteredEvent, UserId, Email } from '@parkealo/shared';
 import { UserMapper } from '../../presentation/mappers/user.mapper';
-import { Email } from '@parkealo/shared';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { UserRole } from '../../domain/enums/user-role.enum';
+import { UserRole } from '@parkealo/shared';
 
 export class RegisterUserCommand {
   constructor(

@@ -1,5 +1,5 @@
-import { DomainEvent } from '@parkealo/shared';
-import { UserRole } from '../enums/user-role.enum';
+import { DomainEvent } from '../common';
+import { UserRole } from '../enums';
 
 export class UserRegisteredEvent implements DomainEvent {
   public readonly occurredAt: Date;

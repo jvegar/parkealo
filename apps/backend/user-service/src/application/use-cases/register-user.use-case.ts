@@ -1,9 +1,5 @@
-import { User } from '../../domain/entities/user.entity';
-import { UserAlreadyExistsException } from '@parkealo/shared';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { PasswordHasher } from '@parkealo/shared';
-import { Email } from '@parkealo/shared';
-import { UserId } from '@parkealo/shared';
+import { User, UserAlreadyExistsException, PasswordHasher, Email, UserId } from '@parkealo/shared';
+import { UserRepository } from '@parkealo/shared';
 import { RegisterUserCommand } from '../commands/register-user.command';
 import { RegisterUserResponse } from '../responses/register-user.response';
 import { Injectable } from '@nestjs/common';

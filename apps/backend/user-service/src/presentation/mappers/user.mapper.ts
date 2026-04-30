@@ -1,8 +1,5 @@
 import { User as PrismaUser } from '../../../generated/prisma/client';
-import { User } from '../../domain/entities/user.entity';
-import { UserRole } from '../../domain/enums/user-role.enum';
-import { Email } from '@parkealo/shared';
-import { UserId } from '@parkealo/shared';
+import { User, UserRole, Email, UserId } from '@parkealo/shared';
 
 export class UserMapper {
   public static toPersistance(user: User): any {
