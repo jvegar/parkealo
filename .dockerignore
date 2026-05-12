@@ -1,0 +1,9 @@
+node_modules
+dist
+.tmp
+.git
+.gitignore
+*.md
+.env
+.env.*
+coverage
