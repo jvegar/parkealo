@@ -52,4 +52,9 @@ export class PrismaUserRepository extends UserRepository {
 
     return UserMapper.toDomain(userRecord);
   }
+
+  async findAll(): Promise<User[]> {
+    const userRecords = await this.prisma.user.findMany();
+    return userRecords.map(UserMapper.toDomain);
+  }
 }

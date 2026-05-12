@@ -1,4 +1,4 @@
-POST http://localhost:8000/api/users
+POST http://localhost:8001/api/users
 Content-Type: application/json
 Accept-Language: en-US,en;q=0.5
 
@@ -12,6 +12,10 @@ Accept-Language: en-US,en;q=0.5
 }
 ###
 GET http://localhost:3000/api/users/19ae91c4-1c65-4988-a22a-cfcf849900b3
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+###
+GET http://localhost:3000/api/users
 Content-Type: application/json
 Accept-Language: en-US,en;q=0.5
 ###
