@@ -3,64 +3,14 @@
 # Kong is used as the API Gateway for routing, authentication, rate limiting, etc.
 
 services:
-  # Kong Database (PostgreSQL) - Stores Kong's configuration
-  kong-database:
-    image: postgres:15-alpine
-    container_name: kong-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${KONG_PG_DATABASE:-kong}
-      POSTGRES_USER: ${KONG_PG_USER:-kong}
-      POSTGRES_PASSWORD: ${KONG_PG_PASSWORD:-kong}
-      POSTGRES_PORT: ${KONG_PG_PORT:-5433}
-    ports:
-      - "${KONG_PG_PORT:-5433}:5432"
-    volumes:
-      - kong_postgres_data:/var/lib/postgresql/data
-    networks:
-      - kong-network
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${KONG_PG_USER:-kong} -d ${KONG_PG_DATABASE:-kong}",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
-  # Kong Database Migration - Runs migrations before Kong starts
-  kong-migration:
-    image: kong:3.9.1
-    container_name: kong-migration
-    restart: on-failure
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
-      KONG_PG_USER: ${KONG_PG_USER:-kong}
-      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
-      KONG_PG_PORT: 5432
-    command: kong migrations bootstrap
-    depends_on:
-      kong-database:
-        condition: service_healthy
-    networks:
-      - kong-network
-
-  # Kong Gateway - The API Gateway itself
+  # Kong Gateway - The API Gateway itself (DB-less mode, config in kong.yml)
   kong:
     image: kong:3.9.1
     container_name: kong-gateway
     restart: unless-stopped
     environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
-      KONG_PG_USER: ${KONG_PG_USER:-kong}
-      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
-      KONG_PG_PORT: 5432
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
 
       # Kong configuration
       KONG_PROXY_ACCESS_LOG: /dev/stdout
@@ -92,12 +42,10 @@ services:
       - "${KONG_ADMIN_PORT:-8001}:8001" # Admin API port
       - "${KONG_ADMIN_GUI_PORT:-8002}:8002" # Kong Manager UI port
     volumes:
-      - ./docker/kong/declarative:/kong/declarative
-    depends_on:
-      kong-database:
-        condition: service_healthy
-      kong-migration:
-        condition: service_completed_successfully
+      - ./kong/declarative:/kong/declarative
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # DB-less mode — no database or migration dependencies needed
     networks:
       - kong-network
       - parkealo-network
@@ -108,7 +56,7 @@ services:
       retries: 10
       start_period: 60s
 
-  # Konga - Kong Admin UI (Optional)
+  # Konga - Kong Admin UI (only useful in DB mode, skip for DB-less)
 
   # Redis for Kong rate limiting and caching
   kong-redis:
@@ -130,8 +78,6 @@ services:
       start_period: 10s
 
 volumes:
-  kong_postgres_data:
-    driver: local
   kong_redis_data:
     driver: local
 

@@ -2,7 +2,8 @@
 The following databases are designed to support the core functionalities of the Parkealo platform, ensuring efficient data management and retrieval for users, parking spaces, and bookings.
 
 ## DATABASES
-- **parkealo_users_service**: Handles user data, authentication, and profile management.
+- **parkealo_users_service**: Handles user data and profile management.
+- **parkealo_auth_service**: Handles authentication, token management, and session control (independent database).
 - **parkealo_parking_space_service**: Manages parking space listings, availability, and pricing.
 - **parkealo_booking_service**: Oversees booking processes, approvals, and history.
 - **parkealo_payment_service**: Manages payment processing, transactions, and payouts.
@@ -17,7 +18,7 @@ The following databases are designed to support the core functionalities of the 
 
 ## SCHEMAS
 - user_service
-- auth_service
+- auth_service (independent database)
 - parking_space_service
 - booking_service
 - payment_service

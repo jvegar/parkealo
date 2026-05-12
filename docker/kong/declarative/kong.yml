@@ -15,15 +15,15 @@ services:
           - /health
         strip_path: false
 
-  # Example: User Service (to be updated with actual service URL)
+  # User Service (runs on host, reached via host.docker.internal)
   - name: user-service
-    url: http://user-service:3001
+    url: http://host.docker.internal:3000
     routes:
       - name: user-service-route
         paths:
-          - /api/v1/users
-          - /api/v1/users/*
-        strip_path: true
+          - /api/users
+          - /api/users/*
+        strip_path: false
         methods:
           - GET
           - POST
@@ -31,15 +31,15 @@ services:
           - PATCH
           - DELETE
 
-  # Example: Authentication Service (to be updated with actual service URL)
+  # Authentication Service (runs on host, reached via host.docker.internal)
   - name: auth-service
-    url: http://auth-service:3000
+    url: http://host.docker.internal:3001
     routes:
       - name: auth-service-route
         paths:
-          - /api/v1/auth
-          - /api/v1/auth/*
-        strip_path: true
+          - /api/auth
+          - /api/auth/*
+        strip_path: false
         methods:
           - GET
           - POST
@@ -109,28 +109,5 @@ consumers:
   - username: internal-service
     custom_id: internal-service-client
 
-# Consumer groups for RBAC
-consumer_groups:
-  - name: web-clients
-    consumers:
-      - parkealo-web-app
-
-  - name: mobile-clients
-    consumers:
-      - parkealo-mobile-app
-
-  - name: internal-services
-    consumers:
-      - internal-service
-
-# ACL plugin configuration for consumer groups
-plugins:
-  # ACL plugin for consumer groups
-  - name: acl
-    config:
-      allow:
-        - web-clients
-        - mobile-clients
-        - internal-services
-      hide_groups_header: false
+# ACL plugin configuration
 

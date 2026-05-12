@@ -16,7 +16,7 @@ Parkealo is built using a modern microservices architecture:
 - **Backend**: Node.js with Express.js microservices
 - **Database**: PostgreSQL with Redis caching
 - **Message Queue**: RabbitMQ for async communication
-- **API Gateway**: Centralized entry point with authentication
+- **API Gateway**: Kong API Gateway for routing, authentication, rate limiting, and monitoring
 - **Containerization**: Docker with Docker Compose for local development
 
 ## 🚀 Quick Start
@@ -72,7 +72,10 @@ docker-compose down
 Once all services are running:
 
 - **Frontend**: http://localhost:3002
-- **API Gateway**: http://localhost:3000
+- **Kong Proxy (API traffic)**: http://localhost:8000
+- **Kong Admin API**: http://localhost:8001
+- **Kong Manager UI**: http://localhost:8002
+- **Konga Admin UI** (optional): http://localhost:1337
 - **RabbitMQ Management**: http://localhost:15672
 - **PostgreSQL**: localhost:5432
 - **Redis**: localhost:6379
@@ -82,7 +85,10 @@ Once all services are running:
 | Service | Port | Description |
 |---------|------|-------------|
 | Frontend | 3002 | React application |
-| API Gateway | 3000 | Main API entry point |
+| Kong Proxy | 8000 | API traffic entry point |
+| Kong Admin API | 8001 | Kong configuration API |
+| Kong Manager | 8002 | Kong web management UI |
+| Konga | 1337 | Optional Kong admin dashboard |
 | User Service | 3001 | User management service |
 | PostgreSQL | 5432 | Primary database |
 | Redis | 6379 | Caching and sessions |
@@ -98,15 +104,22 @@ If you prefer to run services locally without Docker:
 #### Backend Services
 
 ```bash
-# Install dependencies for API Gateway
-cd services/api-gateway
-npm install
-npm run dev
-
 # Install dependencies for User Service
 cd services/user-service
 npm install
 npm run dev
+```
+
+#### API Gateway (Kong)
+
+Kong runs via Docker Compose. See `docker/docker-compose-api-gateway.yml` and `docker/kong/README.md` for details.
+
+```bash
+# Start Kong and its dependencies
+docker-compose -f docker/docker-compose-api-gateway.yml up -d
+
+# Start Kong with Konga admin UI (optional)
+docker-compose -f docker/docker-compose-api-gateway.yml --profile with-konga up -d
 ```
 
 #### Frontend
@@ -137,13 +150,12 @@ Redis is configured with:
 ### Running Tests
 
 ```bash
-# Run all tests
-docker-compose exec api-gateway npm test
+# Run tests for backend services
 docker-compose exec user-service npm test
 docker-compose exec frontend npm test
 
 # Run tests with coverage
-docker-compose exec api-gateway npm run test:coverage
+docker-compose exec user-service npm run test:coverage
 ```
 
 ### API Testing
@@ -151,11 +163,14 @@ docker-compose exec api-gateway npm run test:coverage
 Test the API endpoints:
 
 ```bash
-# Health check
-curl http://localhost:3000/health
+# Health check (via Kong proxy)
+curl http://localhost:8000/health
 
-# User registration
-curl -X POST http://localhost:3000/api/auth/register \
+# Kong Admin API health check
+curl http://localhost:8001/health
+
+# User registration (via Kong proxy)
+curl -X POST http://localhost:8000/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email": "test@example.com", "password": "password123", "username": "testuser"}'
 ```
@@ -165,8 +180,9 @@ curl -X POST http://localhost:3000/api/auth/register \
 ### API Documentation
 
 API documentation is available at:
-- Swagger UI: http://localhost:3000/api-docs
-- OpenAPI JSON: http://localhost:3000/api-docs.json
+- Kong Manager UI: http://localhost:8002
+- Kong Admin API: http://localhost:8001
+- Konga UI (optional): http://localhost:1337
 
 ### Project Documentation
 
@@ -213,18 +229,20 @@ docs(readme): update installation instructions
 # Build all services
 docker-compose build
 
-# Rebuild specific service
-docker-compose build api-gateway
+# Start Kong API Gateway
+docker-compose -f docker/docker-compose-api-gateway.yml up -d
 
 # View service logs
-docker-compose logs -f api-gateway
+docker-compose logs -f user-service
+docker logs kong-gateway
 
 # Execute commands in containers
 docker-compose exec postgres psql -U parkealo_user -d parkealo_dev
 docker-compose exec redis redis-cli -a redis_password
 
-# Clean up everything
+# Clean up everything (including Kong)
 docker-compose down -v
+docker-compose -f docker/docker-compose-api-gateway.yml down -v
 ```
 
 ### Development with Docker
@@ -233,11 +251,11 @@ docker-compose down -v
 # Start only database services
 docker-compose up postgres redis rabbitmq -d
 
-# Start specific service
-docker-compose up api-gateway -d
+# Start Kong API Gateway
+docker-compose -f docker/docker-compose-api-gateway.yml up -d
 
-# Scale services
-docker-compose up --scale api-gateway=3 -d
+# Scale services (via Kong load balancing)
+docker-compose up --scale user-service=3 -d
 ```
 
 ## 🔧 Configuration
@@ -257,8 +275,19 @@ JWT_SECRET=your-secret-key
 JWT_EXPIRATION=15m
 JWT_REFRESH_EXPIRATION=7d
 
+# Kong API Gateway
+KONG_PG_DATABASE=kong
+KONG_PG_USER=kong
+KONG_PG_PASSWORD=kong
+KONG_PG_PORT=5433
+KONG_PROXY_PORT=8000
+KONG_PROXY_SSL_PORT=8443
+KONG_ADMIN_PORT=8001
+KONG_ADMIN_GUI_PORT=8002
+KONG_ADMIN_GUI_SECRET=change-me-please
+KONG_REDIS_PORT=6380
+
 # Services
-API_GATEWAY_PORT=3000
 USER_SERVICE_PORT=3001
 FRONTEND_PORT=3002
 ```
@@ -275,13 +304,16 @@ Each service can be configured through environment variables. See individual ser
 2. **Database connection failed**: Check PostgreSQL container status
 3. **Redis connection failed**: Verify Redis password in configuration
 4. **Build failures**: Clear Docker cache with `docker-compose build --no-cache`
+5. **Kong fails to start**: Check `docker logs kong-migration` and `docker logs kong-gateway` for database connection or migration issues
+6. **Kong proxy returns 502**: Verify backend services are running and accessible on the `parkealo-network`
 
 ### Getting Help
 
 - Check service logs: `docker-compose logs [service-name]`
+- Check Kong logs: `docker logs kong-gateway`
 - Verify container status: `docker-compose ps`
 - Check GitHub Issues for known problems
-- Review documentation in `/docs` folder
+- Review documentation in `/docs` folder and `docker/kong/README.md`
 
 ## 🤝 Contributing
 
