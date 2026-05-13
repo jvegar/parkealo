@@ -1,7 +1,11 @@
 import { DomainException } from './domain.exception';
 import { PasswordHashingException } from './password-hasher.exception';
-import { UserAlreadyExistsException, UserNotFoundException } from './user.exception';
+import {
+  UserAlreadyExistsException,
+  UserNotFoundException,
+} from './user.exception';
 import { InvalidEmailException } from './value-object.exception';
+import { ConnectionStringNotFoundException } from './persistence.exception';
 
 export {
   DomainException,
@@ -9,4 +13,5 @@ export {
   UserAlreadyExistsException,
   UserNotFoundException,
   InvalidEmailException,
+  ConnectionStringNotFoundException,
 };

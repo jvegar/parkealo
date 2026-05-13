@@ -1,7 +1,13 @@
-import { PrismaClient } from 'apps/backend/user-service/generated/prisma/client';
-import { User, UserRepository, UserRegisteredEvent, UserId, Email } from '@parkealo/shared';
+import {
+  User,
+  UserRepository,
+  UserRegisteredEvent,
+  UserId,
+  Email,
+} from '@parkealo/shared';
 import { UserMapper } from '../../presentation/mappers/user.mapper';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class EventDispatcher<T> {
@@ -13,7 +19,7 @@ export class EventDispatcher<T> {
 @Injectable()
 export class PrismaUserRepository extends UserRepository {
   constructor(
-    private readonly prisma: PrismaClient,
+    private readonly prisma: PrismaService,
     private readonly eventDispatcher: EventDispatcher<UserRegisteredEvent>,
   ) {
     super();
