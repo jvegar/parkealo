@@ -4,8 +4,6 @@ export * from './domain/services/';
 export * from './domain/common/';
 export * from './domain/enums/';
 export * from './domain/events/';
-export * from './domain/entities/';
-export * from './domain/repositories/';
 export * from './application/common/';
 export * from './application/dto/';
 export * from './infrastructure/http/';

@@ -1,6 +1,5 @@
-import { User } from '../entities/user.entity';
-import { Email } from '../value-objects/email.value-object';
-import { UserId } from '../value-objects/user-id.value-object';
+import { Email, UserId } from '@parkealo/shared';
+import { User } from '@user-service/domain/aggregates';
 
 export abstract class UserRepository {
   abstract save(user: User): Promise<void>;

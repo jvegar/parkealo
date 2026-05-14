@@ -1,8 +1,14 @@
-import { User, UserAlreadyExistsException, PasswordHasher, Email, UserId } from '@parkealo/shared';
-import { UserRepository } from '@parkealo/shared';
-import { RegisterUserCommand } from '../commands/register-user.command';
-import { RegisterUserResponse } from '../responses/register-user.response';
+import {
+  UserAlreadyExistsException,
+  PasswordHasher,
+  Email,
+  UserId,
+} from '@parkealo/shared';
 import { Injectable } from '@nestjs/common';
+import { User } from '@user-service/domain/aggregates';
+import { UserRepository } from '@user-service/domain/repositories';
+import { RegisterUserCommand } from '@user-service/application/commands';
+import { RegisterUserResponse } from '@user-service/application/responses';
 
 @Injectable()
 export class RegisterUserUseCase {

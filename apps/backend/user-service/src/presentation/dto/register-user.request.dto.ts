@@ -1,3 +1,3 @@
-import { RegisterUserCommand } from '../../application/commands/register-user.command';
+import { RegisterUserCommand } from '@user-service/application/commands';
 
 export class RegisterUserRequestDTO extends RegisterUserCommand {}

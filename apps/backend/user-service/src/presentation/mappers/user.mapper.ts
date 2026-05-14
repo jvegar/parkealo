@@ -1,9 +1,9 @@
+import { User } from '@user-service/domain/aggregates';
 import { User as PrismaUser } from '../../../generated/prisma/client';
-import { User, UserRole, Email, UserId } from '@parkealo/shared';
+import { UserRole, Email, UserId } from '@parkealo/shared';
 
 export class UserMapper {
   public static toPersistance(user: User): any {
-    console.log(user);
     return {
       id: user.id.value,
       email: user.email.value,

@@ -1,7 +1,7 @@
-import { UserRepository } from '@parkealo/shared';
-import { GetUsersQuery } from '../queries/get-users.query';
-import { UserResponse } from '../responses/user.response';
+import { GetUsersQuery } from '@user-service/application/queries';
+import { UserResponse } from '@user-service/application/responses';
 import { Injectable } from '@nestjs/common';
+import { UserRepository } from '@user-service/domain/repositories';
 
 @Injectable()
 export class GetUsersUseCase {

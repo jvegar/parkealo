@@ -1,13 +1,9 @@
-import {
-  User,
-  UserRepository,
-  UserRegisteredEvent,
-  UserId,
-  Email,
-} from '@parkealo/shared';
-import { UserMapper } from '../../presentation/mappers/user.mapper';
+import { UserRegisteredEvent, UserId, Email } from '@parkealo/shared';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
+import { User } from '@user-service/domain/aggregates/user.aggregate';
+import { UserMapper } from '@user-service/presentation/mappers';
+import { UserRepository } from '@user-service/domain/repositories';
 
 @Injectable()
 export class EventDispatcher<T> {

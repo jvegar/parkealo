@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@parkealo/shared": ["libs/shared/src/index.ts"]
+      "@parkealo/shared": ["libs/shared/src/index.ts"],
+      "@user-service/*": ["apps/backend/user-service/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

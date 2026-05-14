@@ -1,7 +1,8 @@
-import { UserRepository, UserId, UserNotFoundException } from '@parkealo/shared';
-import { GetUserByIdQuery } from '../queries/get-user-by-id.query';
-import { UserResponse } from '../responses/user.response';
+import { UserId, UserNotFoundException } from '@parkealo/shared';
+import { GetUserByIdQuery } from '@user-service/application/queries';
+import { UserResponse } from '@user-service/application/responses';
 import { Injectable } from '@nestjs/common';
+import { UserRepository } from '@user-service/domain/repositories';
 
 @Injectable()
 export class GetUserByIdUseCase {

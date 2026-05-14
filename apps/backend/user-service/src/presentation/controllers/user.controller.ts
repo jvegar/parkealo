@@ -1,10 +1,15 @@
 import { Body, Controller, Post, Get, Param, HttpCode } from '@nestjs/common';
-import { RegisterUserUseCase } from '../../application/use-cases/register-user.use-case';
-import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
-import { GetUsersUseCase } from '../../application/use-cases/get-users.use-case';
-import { RegisterUserRequestDTO } from '../dto/register-user.request.dto';
-import { RegisterUserResponse } from '../../application/responses/register-user.response';
-import { UserResponse } from '../../application/responses/user.response';
+import {
+  GetUserByIdUseCase,
+  GetUsersUseCase,
+  RegisterUserUseCase,
+} from '@user-service/application/use-cases';
+
+import {
+  RegisterUserResponse,
+  UserResponse,
+} from '@user-service/application/responses';
+import { RegisterUserRequestDTO } from '@user-service/presentation/dto';
 
 @Controller('users')
 export class UserController {
@@ -16,7 +21,9 @@ export class UserController {
 
   @HttpCode(201)
   @Post()
-  async register(@Body() dto: RegisterUserRequestDTO): Promise<RegisterUserResponse> {
+  async register(
+    @Body() dto: RegisterUserRequestDTO,
+  ): Promise<RegisterUserResponse> {
     return this.registerUserUseCase.execute(dto);
   }
 
